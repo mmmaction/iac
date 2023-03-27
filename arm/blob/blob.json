@@ -1,33 +1,35 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "variables": {
+        "storageName": "[concat('noserdemo', uniqueString(resourceGroup().id))]"
+    },
     "resources": [
         {
-            "name": "storageaccount1",
+            "name": "[variables('storageName')]",
             "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2021-04-01",
+            "apiVersion": "2021-06-01",
             "tags": {
-                "displayName": "storageaccount1"
+                "displayName": "demostorage"
             },
             "location": "[resourceGroup().location]",
             "kind": "StorageV2",
             "sku": {
                 "name": "Premium_LRS",
                 "tier": "Premium"
-            },
-            "resources": [
-                {
-                    "name": "accountName/default/blobContainerName",
-                    "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-                    "apiVersion": "2021-04-01",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Storage/storageAccounts', 'accountName')]"
-                    ],
-                    "properties": {
-                        "publicAccess": "None"
-                    }
-                }
-            ]
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2021-06-01",
+            "name": "[concat(variables('storageName'), '/default/myblobcontainer')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
         }
+
     ]
 }

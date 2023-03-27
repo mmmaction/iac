@@ -20,6 +20,8 @@ https://developer.hashicorp.com/terraform
     bucket = "iac-simple-bucket-1"
   }
   ```
+- for seeing detailed logs: set terraform log level to trace
+  -  `export  TF_LOG=TRACE`
 
 #### s3 bucket
 
@@ -32,6 +34,22 @@ terraform plan
 # deploy the plan / s3 bucket (add -auto-approve for automatic creation)
 terraform apply
 # destroy the infra / s3 bucket (add -auto-approve for automatic creation)
+terraform destroy
+```
+
+#### blob storage
+
+instead of aws account and cli -> one needs to setup an azure account and the azure cli
+
+```bash
+cd `/terraform/blob` directory
+# initialize working directory and install required plugins
+terraform init
+# get a preview of the planned changes (optional) -> save  plan to a file using out option.
+terraform plan -out=tfplan
+# deploy the plan / blob storage (add -auto-approve for automatic creation)
+terraform apply tfplan
+# destroy the infra / blob storage (add -auto-approve for automatic creation)
 terraform destroy
 ```
 
@@ -85,9 +103,24 @@ The following should deploy an storage account plus a blob storage container (ad
 
 ```bash
   cd /arm/blob directory
-  az group create --name ExampleGroup --location "Central US"
+  az login
+  az group create --name ExampleGroup --location "switzerlandnorth"
+  # add what-if option for preview
   az deployment group create --resource-group ExampleGroup --template-file blob.json
+  # remove everything within a resource group
+  az group delete --name ExampleGroup
 ```
+
+## aws CDK
+
+https://docs.aws.amazon.com/cdk/v2/guide/home.html
+
+### getting started
+
+- install aws cdk toolkik: npm install -g aws-cdk
+- npm run build
+- cdk bootstrap
+- cdk deploy
 
 ## background info
 
