@@ -33,3 +33,11 @@ tfplan
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# ignore zip files
+*.zip
+
+# ifor node
+node_modules
+.npm
+.environment
