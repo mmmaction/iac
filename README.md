@@ -53,6 +53,29 @@ terraform apply tfplan
 terraform destroy
 ```
 
+#### example app: todo app
+
+the app runs on AWS. It will create:
+- API Gateway for exposing a REST API
+- Lambda functions for getting and creating todos
+- Dynamo DB as database to store the todos
+
+```bash
+cd `/terraform/todo_app/src` directory
+# install node dependencies used for the lambdas
+npm i
+# go to desired environment
+cd ../environments/dev
+# initialize working directory and install required plugins
+terraform init
+# get a preview of the planned changes (optional) -> save  plan to a file using out option.
+terraform plan -out=tfplan
+# deploy the plan (add -auto-approve for automatic creation)
+terraform apply tfplan
+# destroy the infra (add -auto-approve for automatic creation)
+terraform destroy
+```
+
 
 ## cloudformation
 
